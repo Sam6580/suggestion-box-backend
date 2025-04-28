@@ -1,7 +1,8 @@
+require('dotenv').config();
 const axios = require('axios');
 
 // Your OpenRouter API Key
-const OPENROUTER_API_KEY = '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';
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 async function generateReply(userText) {
   try {
