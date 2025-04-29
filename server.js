@@ -38,7 +38,7 @@ async function generateReply(userText) {
 // server.js
 const express = require('express');
 const app = express();
-const port = 3000;
+// Removed duplicate declaration of port
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -88,6 +88,8 @@ app.post('/login', (req, res) => {
   
 
 // Server Listening
+const port = process.env.PORT || 3000;
+
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });
