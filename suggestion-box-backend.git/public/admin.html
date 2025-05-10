@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="dashboard-container">
+    <h2>Admin Dashboard - Suggestions</h2>
+    <div id="suggestionList" class="suggestion-list"></div>
+  </div>
+
+  <script>
+    async function loadSuggestions() {
+      const res = await fetch('/suggestions');
+      const suggestions = await res.json();
+
+      const list = document.getElementById('suggestionList');
+      list.innerHTML = '';
+
+      suggestions.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'suggestion-card';
+        card.innerHTML = `
+          <p><strong>ID:</strong> ${s.id}</p>
+          <p><strong>Suggestion:</strong> ${s.text}</p>
+          <p><strong>AI Reply:</strong> ${s.aiReply}</p>
+          <p><strong>Impact Score:</strong> ${s.impactScore}</p>
+          <button class="btn">Mark as Reviewed</button>
+          <button class="btn btn-danger">Mark as Spam</button>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    window.onload = loadSuggestions;
+  </script>
+</body>
+</html>

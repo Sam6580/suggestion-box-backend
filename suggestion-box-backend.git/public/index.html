@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Suggestion Box</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="form-container">
+    <!-- Login Form -->
+    <div id="login-section">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button onclick="login()" class="btn">Login</button>
+    </div>
+
+    <!-- Suggestion Form (Initially Hidden) -->
+    <div id="suggestion-section" style="display: none;">
+      <h2>Submit Your Suggestion</h2>
+      <form id="suggestionForm">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="College Email" required />
+        <textarea id="suggestion" placeholder="Enter your suggestion..." rows="6" required></textarea>
+        <button type="submit" class="btn">Submit Suggestion</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert(data.message);
+            if (data.isAdmin) {
+              window.location.href = "/admin.html";
+            } else {
+              document.getElementById("login-section").style.display = "none";
+              document.getElementById("suggestion-section").style.display = "block";
+            }
+          } else {
+            alert("Invalid credentials");
+          }
+        })
+        .catch(err => console.error(err));
+    }
+
+    document.getElementById("suggestionForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const userText = document.getElementById("suggestion").value.trim();
+
+      const response = await fetch("/suggestions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, text: userText }),
+      });
+
+      const data = await response.json();
+
+      const replyDiv = document.createElement("div");
+      replyDiv.innerHTML = `
+        <h3>AI Response:</h3>
+        <div class="ai-reply">
+          <strong>Dear ${name},</strong><br><br>
+          ${data.aiReply}<br><br>
+          <em>A proper reply from the management will be sent to your email (${email}) as soon as possible.</em>
+        </div>
+      `;
+      document.getElementById("suggestion-section").appendChild(replyDiv);
+      this.reset();
+    });
+  </script>
+</body>
+</html>
