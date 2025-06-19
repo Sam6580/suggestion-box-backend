@@ -17,7 +17,10 @@ A smart backend system for managing suggestions using **AI-generated replies**, 
 
 ## 🚀 Demo Screenshot
 
-> _Update this with an actual screenshot:_
+![Screenshot 2025-05-13 185632](https://github.com/user-attachments/assets/2fcb2331-2060-422d-9e49-c55bd836c419)
+![Screenshot 2025-05-13 185710](https://github.com/user-attachments/assets/455b95dc-76ce-4342-9b1c-6e3124603218)
+![Screenshot 2025-05-13 185802](https://github.com/user-attachments/assets/3efd9aa5-afb6-4cf2-89cd-ce6c23d8af07)
+
 
 ![Admin Dashboard](https://github.com/Sam6580/suggestion-box-backend/blob/main/public/screenshot.png)
 
